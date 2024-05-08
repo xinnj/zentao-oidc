@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build
+      run: |
+        mkdir oidc
+        mv config doc extension oidc/
+
+    - name: Package
+      run: |
+        zip -r zentao-oidc-${{ github.ref_name }}.zip oidc
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: zentao-oidc-${{ github.ref_name }}.zip
