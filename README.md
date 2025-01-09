@@ -11,4 +11,4 @@
 5. 使用本地管理员登录禅道，并使用禅道的插件本地安装功能安装本插件。
 6. 编辑config/ext/oidc.php文件，并将以下值设为Keycloak中的数据。如果是用Docker镜像安装的，请编辑/data/zentao/extension/pkg/oidc1.0/config/ext/oidc.php文件。否则容器重启后，编辑的内容将会丢失。   
 ![img_2.png](images/img_2.png)
-7. 退出本地管理员登录，在禅道登录页面输入Keycloak中的用户账号，并点击“单点登录”按钮登录。
+7. 退出本地管理员登录，点击“单点登录”按钮，输入Keycloak中的用户账号登录。
