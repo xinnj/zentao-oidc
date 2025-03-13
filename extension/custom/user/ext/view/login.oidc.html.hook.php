@@ -1,16 +1,14 @@
+<button id="ssoSubmit" class="btn btn-primary" type="button">单点登录</button>
+
 <script>
     function locate() {
         window.location.href = "<?php echo helper::createLink('oidc', 'login') ?>"
     }
 
-    var submit=document.getElementById("submit");
-    var loginPanel=document.getElementById("loginPanel");
+    var btnSso = document.getElementById("ssoSubmit");
 
-    var o = document.createElement("button");
-    o.innerHTML = "单点登录"
-    o.className = "btn btn-primary"
-    o.type = "button"
-    o.addEventListener("click",locate);  
+    var tdSubmit = document.getElementById("submit").parentNode;
+    tdSubmit.appendChild(btnSso);
 
-    submit.parentNode.insertBefore(o,submit);
+    btnSso.addEventListener("click",locate);
 </script>
