@@ -22,7 +22,11 @@ class oidc extends control
             $this->config->oidc->clientSecret
         );
 
-        $oidc->setVerifyPeer(false);
+        if ($this->config->oidc->disableSSLVerify) {
+            $oidc->setVerifyHost(false);
+            $oidc->setVerifyPeer(false);
+            $oidc->setHttpUpgradeInsecureRequests(false);
+        }
 
         $oidc->setRedirectURL(common::getSysURL() . inlink('login'));
 
