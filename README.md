@@ -1,7 +1,12 @@
+## 介绍
 本插件用于禅道支持基于OpenID Connect的SSO登录。   
-在禅道开源版18.8、21.4及Keycloak 23.0.7上验证通过。
 
-使用方法（已Keycloak为例）：
+## 已测试版本
+
+禅道：开源版18.8、开源版21.4、开源版21.7.8
+Keycloak：23.0.7、26.5.1
+
+## 使用方法（已Keycloak为例）
 1. 在Keycloak的Clients页面中添加新的OpenID Connect类型的client。例如：   
 ![img.jpg](images/img.jpg)
 2. 在新创建的client中拿到secret：   
