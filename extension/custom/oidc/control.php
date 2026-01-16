@@ -14,7 +14,7 @@ class oidc extends control
             $_REQUEST[$key] = $value;
         }
 
-        $last = $this->server->request_time;
+        $last = helper::now();
 
         $oidc = new OpenIDConnectClient(
             $this->config->oidc->provider_url,
@@ -43,7 +43,7 @@ class oidc extends control
         } catch (Exception $e) {
             die("oidc error:" . $e->getMessage());
         }
-        $this->view->name = $user->name;
+        $this->view->name = $user->chinesename;
         $this->view->email = $user->email;
         $this->view->account = $user->preferred_username;
         $user->account = $user->preferred_username;
@@ -77,9 +77,16 @@ class oidc extends control
             if ($dbuser->modifyPassword) $user->modifyPasswordReason = 'weak';
         }
 
-        $userIP = $this->server->remote_addr;
-        $this->dao->update(TABLE_USER)->set('visits = visits + 1')->set('ip')->eq($userIP)->set('last')->eq($last)->where('account')->eq($dbuser->account)->exec();
-
+        $userIP = helper::getRemoteIp();
+        try {
+            // 排查错误，需要开启my.php debug模式
+            $this->dao->update(TABLE_USER)->set('visits = visits + 1')->set('ip')->eq($userIP)->set('last')->eq($last)->where('account')->eq($dbuser->account)->exec();
+        } catch (PDOException $e) {
+            die("数据库执行崩溃: " . $e->getMessage());
+        } catch (Exception $e) {
+            die("其他异常: " . $e->getMessage());
+        }
+        
         $this->session->set('user', $dbuser);
         $this->app->user = $this->session->user;
         $this->loadModel('action')->create('user', $dbuser->id, 'login');

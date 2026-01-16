@@ -49,7 +49,7 @@ class oidcModel extends model
 
         $user = new stdclass();
         $user->account = $newUser->account;
-        $user->realname = $newUser->name;
+        $user->realname = $newUser->chinesename;
         $user->email = $newUser->email;
         $user->password = md5($this->create_password(12)); //随机生成12位密码长度
         $user->deleted = '0';

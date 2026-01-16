@@ -1,6 +1,8 @@
 ## 介绍
 本插件用于禅道支持基于OpenID Connect的SSO登录。   
 
+请在oidc提供者的userinfo中配置`chinesename`字段，用于在禅道中显示用户中文姓名。
+
 ## 已测试版本
 
 禅道：开源版18.8、开源版21.4、开源版21.7.8
@@ -22,3 +24,7 @@ Keycloak：23.0.7、26.5.1
     * 将Keycloak中client的advanced选项中的`Exclude Issuer From Authentication Response`选项打开。   
    ![img.jpg](images/img_3.jpg)
 8. 重启禅道后，点击`单点登录`按钮，在Keycloak中输入账号登录。
+
+## 更新日志
+
+2026.01.16 更新last登录时间的取值逻辑，防止因last格式不对导致在mysql8+版本严格模式（Strict Mode）中报错。
