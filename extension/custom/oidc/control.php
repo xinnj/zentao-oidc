@@ -14,6 +14,11 @@ class oidc extends control
             $_REQUEST[$key] = $value;
         }
 
+        $referer = $this->server->http_referer;
+        if(empty($referer)) {
+            $referer = $_REQUEST['referer'];
+        }
+
         $last = $this->server->request_time;
 
         $oidc = new OpenIDConnectClient(
@@ -28,7 +33,15 @@ class oidc extends control
             $oidc->setHttpUpgradeInsecureRequests(false);
         }
 
-        $oidc->setRedirectURL(common::getSysURL() . inlink('login'));
+        $uriPath = '';
+        if (!empty($referer)) {
+            $uriPath = parse_url($referer, PHP_URL_PATH);
+        }
+        if(empty($uriPath)) {
+            $oidc->setRedirectURL(common::getSysURL() . inlink('login'));
+        } else {
+            $oidc->setRedirectURL(common::getSysURL() . inlink('login') . "?referer=" . urlencode($uriPath));
+        }
 
         try {
             $scopes=array("profile", "email");
@@ -77,13 +90,17 @@ class oidc extends control
             if ($dbuser->modifyPassword) $user->modifyPasswordReason = 'weak';
         }
 
-        $userIP = $this->server->remote_addr;
+        $userIP = helper::getRemoteIp();
         $this->dao->update(TABLE_USER)->set('visits = visits + 1')->set('ip')->eq($userIP)->set('last')->eq($last)->where('account')->eq($dbuser->account)->exec();
 
         $this->session->set('user', $dbuser);
         $this->app->user = $this->session->user;
         $this->loadModel('action')->create('user', $dbuser->id, 'login');
 
-        echo js::locate($this->createLink($this->config->default->module), 'parent');
+        if (empty($referer)) {
+            echo js::locate($this->createLink($this->config->default->module), 'parent');
+        } else {
+            $this->locate($referer);
+        }
     }
 }

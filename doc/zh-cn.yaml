@@ -1,11 +1,11 @@
 ---
-name: OpenID Connect插件2.0
+name: OpenID Connect插件2.2
 code: oidc
 type: extension
 copyright: 根据shixf的CAS插件及wingfeng的OIDC模块进行修改
 site: https://github.com/xinnj/zentao-oidc
 author: 'xinnj<xinnj@hotmail.com>'
-abstract: OpenID Connect插件2.0
+abstract: OpenID Connect插件2.2
 desc: >
   支持OpenID Connect SSO登录。
   在禅道开源版18.8、21.4及Keycloak 23.0.7上验证通过。
@@ -16,6 +16,16 @@ install: |
     1.3 选择自动安装，按照页面提示即可。
   2. 手工安装，将代码解压缩，然后将目录拷贝到禅道对应的目录，比如module拷贝到zentao的module。
 releases:
+  2.2:
+    zentao:
+      compatible: all
+      incompatible:
+    charge: free
+    date: 2026-01-22
+    conflicts: null
+    depends: null
+    license: LGPL
+    changelog: 在使用OIDC重新登录后，保留在登录前页面。
   2.0:
     zentao:
       compatible: all
