@@ -8,7 +8,7 @@ author: 'xinnj<xinnj@hotmail.com>'
 abstract: OpenID Connect插件2.2
 desc: >
   支持OpenID Connect SSO登录。
-  在禅道开源版18.8、21.4及Keycloak 23.0.7上验证通过。
+  在禅道开源版18.8、21.4、21.7.8及Keycloak 23.0.7上验证通过。
 install: |
   1. 通过禅道的插件管理来进行安装。
     1.1 使用管理员身份登录禅道，访问插件管理。

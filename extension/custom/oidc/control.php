@@ -91,7 +91,21 @@ class oidc extends control
         }
 
         $userIP = helper::getRemoteIp();
-        $this->dao->update(TABLE_USER)->set('visits = visits + 1')->set('ip')->eq($userIP)->set('last')->eq($last)->where('account')->eq($dbuser->account)->exec();
+
+        // 检测 last 字段的类型，兼容不同版本（int时间戳 或 datetime）
+        // 通过查询表结构来判断字段类型
+        $sql = "SHOW COLUMNS FROM " . TABLE_USER . " LIKE 'last'";
+        $columnInfo = $this->dao->query($sql)->fetch();
+        $isDatetimeField = (strpos($columnInfo->Type, 'datetime') !== false || strpos($columnInfo->Type, 'timestamp') !== false);
+
+        $lastValue = $isDatetimeField ? date(DT_DATETIME1, $last) : $last;
+
+        $this->dao->update(TABLE_USER)
+            ->set('visits = visits + 1')
+            ->set('ip')->eq($userIP)
+            ->set('last')->eq($lastValue)
+            ->where('account')->eq($dbuser->account)
+            ->exec();
 
         $this->session->set('user', $dbuser);
         $this->app->user = $this->session->user;
