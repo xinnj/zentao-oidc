@@ -1,13 +1,7 @@
 <button id="ssoSubmit" class="btn btn-important" type="button">
     <?php
-    $lang = isset($config->default->lang) ? $config->default->lang : 'zh-cn';
-    $buttonText = '单点登录';
-    if ($lang == 'en' || $lang == 'en-us') {
-        $buttonText = 'Single Sign-On';
-    } elseif ($lang == 'zh-tw' || $lang == 'zh-hk') {
-        $buttonText = '單點登入';
-    }
-    echo $buttonText;
+        global $lang;
+        echo $lang->user->oidc;
     ?>
 </button>
 
